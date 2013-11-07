@@ -9,6 +9,9 @@ public class GameControllerScript : MonoBehaviour {
 	public int gridWidth = 8;
 	public int gridHeight = 5;
 	private GameObject[,] allCubes;
+	private int nextCubeY = 1;
+	private int nextCubeX = 1;
+	private int nextCubeZ = 10;
 	// Use this for initialization
 	void Start () {
 		// initilize cubes
@@ -26,9 +29,9 @@ public class GameControllerScript : MonoBehaviour {
 	}
 	
 	// this will give a random colored cube
-	void randomCubeSpawn (int x, int y, int z){
-		Instantiate(livingCube, new Vector3 (x, y, z), Quaternion.identity);
-	}
+	void randomCubeSpawn (){
+		Instantiate(livingCube, new Vector3 (nextCubeX, nextCubeY, nextCubeZ), Quaternion.identity);
+	
 	
 	public void ProcessClickedCube(GameObject clickedCube, int x, int y){
 		// if the cube is colored and active, make it inactive
