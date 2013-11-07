@@ -6,11 +6,17 @@ public class GameControllerScript : MonoBehaviour {
 	// Living cube refers to a non-grey cube, dead cube is a grey cube. 
 	public GameObject livingCube;
 	public GameObject deadCube;
-	
+	public int gridWidth = 8;
+	public int gridHeight = 5;
+	private GameObject[,] allCubes;
 	// Use this for initialization
 	void Start () {
 		// initilize cubes
-			// cubes should be in a 2D array named allCubes[,]
+		for (int x = 0; x < gridWidth; x++) {
+			for (int y < gridHeight; y++) {
+				allCubes [x,y] = (GameObject) Instantiate(livingCube, new Vector3(x*2-14, y*2-8, 10)Quaternion.Identity);
+			}
+		}
 	
 	}
 	
