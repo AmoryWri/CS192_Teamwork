@@ -10,8 +10,14 @@ public class GameControllerScript : MonoBehaviour {
 	public int gridHeight = 5;
 	private GameObject[,] allCubes;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	
 	
+=======
+	private int nextCubeY = 1;
+	private int nextCubeX = 1;
+	private int nextCubeZ = 10;
+>>>>>>> cc2ba44e713000b779c26e6914e33a21dcfe350d
 =======
 	private int nextCubeY = 1;
 	private int nextCubeX = 1;
