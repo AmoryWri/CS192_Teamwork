@@ -9,12 +9,20 @@ public class GameControllerScript : MonoBehaviour {
 	public int gridWidth = 8;
 	public int gridHeight = 5;
 	private GameObject[,] allCubes;
+<<<<<<< HEAD
+	
+	
+=======
+	private int nextCubeY = 1;
+	private int nextCubeX = 1;
+	private int nextCubeZ = 10;
+>>>>>>> cc2ba44e713000b779c26e6914e33a21dcfe350d
 	// Use this for initialization
 	void Start () {
 		// initilize cubes
 		for (int x = 0; x < gridWidth; x++) {
-			for (int y < gridHeight; y++) {
-				allCubes [x,y] = (GameObject) Instantiate(livingCube, new Vector3(x*2-14, y*2-8, 10)Quaternion.Identity);
+			for (int y = 0; y < gridHeight; y++) {
+				allCubes[x, y] = (GameObject) Instantiate(livingCube, new Vector3(x*2-14, y*2-8, 10), Quaternion.identity);
 			}
 		}
 	
@@ -22,13 +30,13 @@ public class GameControllerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () { 
-	
+		
 	}
 	
 	// this will give a random colored cube
-	void randomCubeSpawn (int x, int y, int z){
-		Instantiate(livingCube, new Vector3 (x, y, z), Quaternion.identity);
-	}
+	void randomCubeSpawn (){
+		Instantiate(livingCube, new Vector3 (nextCubeX, nextCubeY, nextCubeZ), Quaternion.identity);
+	
 	
 	public void ProcessClickedCube(GameObject clickedCube, int x, int y){
 		// if the cube is colored and active, make it inactive
@@ -43,21 +51,28 @@ public class GameControllerScript : MonoBehaviour {
 				//spawn new cube in "next cube" box
 	}
 	
-	
 	void ChooseCubeColor(GameObject chosenCube) {
-		chosenCube.cubeColorRefrence = Random.range(1, 5);
-		if (chosenCube.cubeColorRefrence < 2) {
-			chosenCube.cubeColor = Color.black;
-		}
-		else if (chosenCube.cubeColorRefrence > 2 && chosenCube.cubeColorRefrence < 3) {
-			chosenCube.cubeColor = Color.red;
-		}
+		int r = Random.Range(1, 5);
+		Color cbColor = Color.white;
+		chosenCube.GetComponent<ColoredCubeScript>().cubeColorReference = r;
+		chosenCube.GetComponent<ColoredCubeScript>().cubeColor = cbColor;
 		
-		else if (chosenCube.cubeColorRefrence > 3 && chosenCube.cubeColorRefrence < 4){
-			chosenCube.cubeColor = Color.blue;
-		}
-		else if (chosenCube.cubeColorRefrence > 4 && chosenCube.cubeColorRefrence < 5){
-			chosenCube.cubeColor = Color.yellow;
+		switch (r) {
+			case 1:
+				cbColor = Color.black;
+				break;
+			case 2:
+				cbColor = Color.blue;
+				break;
+			case 3:
+				cbColor = Color.red;
+				break;
+			case 4:
+				cbColor = Color.yellow;
+				break;
+			case 5:
+				cbColor = Color.green;
+				break;
 		}
 	}
 }
