@@ -28,7 +28,11 @@ public class GameControllerScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () { 
+	void Update () {
+		if (Input.GetKeyDown(KeyCode.Z)) {
+			RandomCubeSpawn();
+		}
+		OnKeyDown();
 	}
 	
 	// this will give a random colored cube
@@ -47,23 +51,55 @@ public class GameControllerScript : MonoBehaviour {
 		int x = Random.Range(0, 8);
 		// when 1-5 is pressed, check to see if the row is full
 		if (Input.GetKeyDown(KeyCode.Keypad1)) {
-			
+			if (IsRowFull(1)== true){
+				// end the game
+			}
+			else {
+				int r = Random.Range(0,8);
+				allCubes[1,r].renderer.material.color = nextCubeColor;
+				Destroy(nextCube);
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad2)) {
-			
+			if (IsRowFull(2)== true){
+				//end the game
+			}
+			else {
+				int r = Random.Range(0,8);
+				allCubes[2,r].renderer.material.color = nextCubeColor;
+				Destroy(nextCube);
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad3)) {
-			
+			if (IsRowFull(3)== true){
+				//end the game
+			}
+			else {
+				int r = Random.Range(0,8);
+				allCubes[3,r].renderer.material.color = nextCubeColor;
+				Destroy(nextCube);
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad4)) {
-			
+			if (IsRowFull (4) == true){
+				//end the game	
+			}
+			else {
+				int r = Random.Range(0,8);
+				allCubes[4,r].renderer.material.color = nextCubeColor;
+				Destroy(nextCube);
+			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Keypad5)) {
-			
+			if (IsRowFull(5) == true){
+				//end the game	
+			}
+			else {
+				int r = Random.Range(0,8);
+				allCubes[5,r].renderer.material.color = nextCubeColor;
+				Destroy(nextCube);
+			}
 		}
-		// if the row is full, stop game
-			// if the row is not full, assign that color to a random cube in that row
-				//spawn new cube in "next cube" box
 	}
 	
 	Color ChooseCubeColor(GameObject chosenCube) {
@@ -93,6 +129,27 @@ public class GameControllerScript : MonoBehaviour {
 				cbColor = Color.green;
 				chosenCube.renderer.material.color = Color.green;
 				break;
+			default:
+			cbColor = Color.magenta;
+			chosenCube.renderer.material.color = Color.magenta;
+			break;
 		}
+		return cbColor;
+	}
+	
+	bool IsRowFull(int rowNumb){
+		int y = 0;
+		bool rowFull = true;
+		while (y < gridHeight || rowFull == true) {
+			if (allCubes[rowNumb, y].renderer.material.color == Color.white){
+				
+				rowFull = false;
+			}
+			else {
+				y++;
+				rowFull = true;	
+			}
+		}
+		return rowFull;
 	}
 }
