@@ -9,12 +9,19 @@ public class GameControllerScript : MonoBehaviour {
 	public int gridWidth = 8;
 	public int gridHeight = 5;
 	private GameObject[,] allCubes;
+	private GameObject nextCube;
+	private Color nextCubeColor;
+	private int nextCubeY = -4;
+	private int nextCubeX = -20;
+	private int nextCubeZ = 10;
+	
 	// Use this for initialization
 	void Start () {
 		// initilize cubes
+		allCubes = new GameObject[gridWidth, gridHeight];
 		for (int x = 0; x < gridWidth; x++) {
-			for (int y < gridHeight; y++) {
-				allCubes [x,y] = (GameObject) Instantiate(livingCube, new Vector3(x*2-14, y*2-8, 10)Quaternion.Identity);
+			for (int y = 0; y < gridHeight; y++) {
+				allCubes[x, y] = (GameObject) Instantiate(livingCube, new Vector3(x*2-14, y*2-8, 10), Quaternion.identity);
 			}
 		}
 	
@@ -22,12 +29,12 @@ public class GameControllerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () { 
-	
 	}
 	
 	// this will give a random colored cube
-	void randomCubeSpawn (int x, int y, int z){
-		Instantiate(livingCube, new Vector3 (x, y, z), Quaternion.identity);
+	void RandomCubeSpawn (){
+		nextCube = (GameObject) Instantiate(livingCube, new Vector3 (nextCubeX, nextCubeY, nextCubeZ), Quaternion.identity);
+		nextCubeColor= ChooseCubeColor(nextCube);
 	}
 	
 	public void ProcessClickedCube(GameObject clickedCube, int x, int y){
@@ -37,27 +44,55 @@ public class GameControllerScript : MonoBehaviour {
 	}
 	
 	void OnKeyDown (){
+		int x = Random.Range(0, 8);
 		// when 1-5 is pressed, check to see if the row is full
-			// if the row is full, stop game
+		if (Input.GetKeyDown(KeyCode.Keypad1)) {
+			
+		}
+		else if (Input.GetKeyDown(KeyCode.Keypad2)) {
+			
+		}
+		else if (Input.GetKeyDown(KeyCode.Keypad3)) {
+			
+		}
+		else if (Input.GetKeyDown(KeyCode.Keypad4)) {
+			
+		}
+		else if (Input.GetKeyDown(KeyCode.Keypad5)) {
+			
+		}
+		// if the row is full, stop game
 			// if the row is not full, assign that color to a random cube in that row
 				//spawn new cube in "next cube" box
 	}
 	
-	
-	void ChooseCubeColor(GameObject chosenCube) {
-		chosenCube.cubeColorRefrence = Random.range(1, 5);
-		if (chosenCube.cubeColorRefrence < 2) {
-			chosenCube.cubeColor = Color.black;
-		}
-		else if (chosenCube.cubeColorRefrence > 2 && chosenCube.cubeColorRefrence < 3) {
-			chosenCube.cubeColor = Color.red;
-		}
+	Color ChooseCubeColor(GameObject chosenCube) {
+		int r = Random.Range(1, 5);
+		Color cbColor = Color.white;
+		chosenCube.GetComponent<ColoredCubeScript>().cubeColorReference = r;
+		chosenCube.GetComponent<ColoredCubeScript>().cubeColor = cbColor;
 		
-		else if (chosenCube.cubeColorRefrence > 3 && chosenCube.cubeColorRefrence < 4){
-			chosenCube.cubeColor = Color.blue;
-		}
-		else if (chosenCube.cubeColorRefrence > 4 && chosenCube.cubeColorRefrence < 5){
-			chosenCube.cubeColor = Color.yellow;
+		switch (r) {
+			case 1:
+				cbColor = Color.black;
+				chosenCube.renderer.material.color = Color.black;
+				break;
+			case 2:
+				cbColor = Color.blue;
+				chosenCube.renderer.material.color = Color.blue;
+				break;
+			case 3:
+				cbColor = Color.red;
+				chosenCube.renderer.material.color = Color.red;
+				break;
+			case 4:
+				cbColor = Color.yellow;
+				chosenCube.renderer.material.color = Color.yellow;
+				break;
+			case 5:
+				cbColor = Color.green;
+				chosenCube.renderer.material.color = Color.green;
+				break;
 		}
 	}
 }

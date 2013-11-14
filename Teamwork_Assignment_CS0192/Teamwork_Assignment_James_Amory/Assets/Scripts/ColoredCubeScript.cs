@@ -4,11 +4,11 @@ using System.Collections;
 
 // This script is for any "non-grey" cubes in the scene, including white cubes. 
 public class ColoredCubeScript : MonoBehaviour {
-	public Color cubeColor;
+	public Color cubeColor = Color.white;
 	
 	// the Cube Color Referance is a number that is used by the GameController.ChooseCubeColor method to
 	// assign a random valid color to the cube
-	public int cubeColorRefrence;
+	public int cubeColorReference;
 	private GameControllerScript theGameController;
 	public int xPos, yPos;
 	
