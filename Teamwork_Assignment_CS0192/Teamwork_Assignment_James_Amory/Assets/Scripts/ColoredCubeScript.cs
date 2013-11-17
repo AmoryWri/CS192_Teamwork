@@ -8,7 +8,8 @@ public class ColoredCubeScript : MonoBehaviour {
 	
 	// the Cube Color Referance is a number that is used by the GameController.ChooseCubeColor method to
 	// assign a random valid color to the cube
-	public int cubeColorReference;
+	public bool isActive = false;
+	public int cubeColorReference = 0;
 	private GameControllerScript theGameController;
 	public int xPos, yPos;
 	
@@ -20,7 +21,12 @@ public class ColoredCubeScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if (isActive && transform.position.z == 10) {
+			transform.Translate(0, 0, -2);
+		}
+		else if (!isActive && transform.position.z == 8){
+			transform.Translate(0, 0, 2);
+		}
 	}
 	
 	void OnMouseDown(){

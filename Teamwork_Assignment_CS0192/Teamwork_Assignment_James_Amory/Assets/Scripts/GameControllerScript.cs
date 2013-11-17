@@ -4,13 +4,15 @@ using System.Collections;
 public class GameControllerScript : MonoBehaviour {
 	
 	// Living cube refers to a non-grey cube, dead cube is a grey cube. 
-	public GameObject livingCube;
+	public float timeToAct = 2;
 	public GameObject deadCube;
-	public int gridWidth = 8;
+	public GameObject livingCube;
 	public int gridHeight = 5;
+	public int gridWidth = 8;
+	private Color nextCubeColor;
+	private float timeBeforeAction;
 	private GameObject[,] allCubes;
 	private GameObject nextCube;
-	private Color nextCubeColor;
 	private int nextCubeY = -4;
 	private int nextCubeX = -20;
 	private int nextCubeZ = 10;
@@ -23,12 +25,14 @@ public class GameControllerScript : MonoBehaviour {
 				allCubes[x, y] = (GameObject) Instantiate(livingCube, new Vector3(x*2-14, y*2-8, 10), Quaternion.identity);
 			}
 		}
-	
 	}
 	
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Z)) {
+		timeBeforeAction += Time.deltaTime;
+		if (timeBeforeAction > timeToAct){
+			Destroy(nextCube);
 			RandomCubeSpawn();
+			timeBeforeAction = 0;
 		}
 		OnKeyDown();
 	}
@@ -40,15 +44,21 @@ public class GameControllerScript : MonoBehaviour {
 	}
 	
 	public void ProcessClickedCube(GameObject clickedCube, int x, int y){
+		//when cube becomes active, move it forward
 		// if the cube is colored and active, make it inactive
+		if (clickedCube.GetComponent<ColoredCubeScript>().cubeColorReference != 0){
+			clickedCube.GetComponent<ColoredCubeScript>().isActive = true;
+		}
+		else if (clickedCube.GetComponent<ColoredCubeScript>().isActive == true){
+			clickedCube.GetComponent<ColoredCubeScript>().isActive = false;			
+		}
 		// if the cube is colored and inactive, make it active
 		// if the cube is white and ajacent to an active cube, move the active cube to that position. 
 	}
 	
 	void OnKeyDown (){
-		int x = Random.Range(0, 8);
 		if (Input.GetKeyDown(KeyCode.Alpha1)) {
-			if (IsRowFull(0)== true){
+			if (IsRowFull(0)){
 				// end the game
 			}
 			else {
@@ -58,7 +68,7 @@ public class GameControllerScript : MonoBehaviour {
 			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2)) {
-			if (IsRowFull(1)== true){
+			if (IsRowFull(1)){
 				//end the game
 			}
 			else {
@@ -68,7 +78,7 @@ public class GameControllerScript : MonoBehaviour {
 			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3)) {
-			if (IsRowFull(2)== true){
+			if (IsRowFull(2)){
 				//end the game
 			}
 			else {
@@ -78,7 +88,7 @@ public class GameControllerScript : MonoBehaviour {
 			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha4)) {
-			if (IsRowFull (3) == true){
+			if (IsRowFull (3)){
 				//end the game	
 			}
 			else {
@@ -88,7 +98,7 @@ public class GameControllerScript : MonoBehaviour {
 			}
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha5)) {
-			if (IsRowFull(4) == true){
+			if (IsRowFull(4)){
 				//end the game	
 			}
 			else {
