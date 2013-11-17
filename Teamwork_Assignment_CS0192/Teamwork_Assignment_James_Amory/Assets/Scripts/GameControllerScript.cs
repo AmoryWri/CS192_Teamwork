@@ -15,7 +15,6 @@ public class GameControllerScript : MonoBehaviour {
 	private int nextCubeX = -20;
 	private int nextCubeZ = 10;
 	
-	// Use this for initialization
 	void Start () {
 		// initilize cubes
 		allCubes = new GameObject[gridWidth, gridHeight];
@@ -27,7 +26,6 @@ public class GameControllerScript : MonoBehaviour {
 	
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown(KeyCode.Z)) {
 			RandomCubeSpawn();
@@ -49,10 +47,19 @@ public class GameControllerScript : MonoBehaviour {
 	
 	void OnKeyDown (){
 		int x = Random.Range(0, 8);
-		// when 1-5 is pressed, check to see if the row is full
-		if (Input.GetKeyDown(KeyCode.Keypad1)) {
-			if (IsRowFull(1)== true){
+		if (Input.GetKeyDown(KeyCode.Alpha1)) {
+			if (IsRowFull(0)== true){
 				// end the game
+			}
+			else {
+				int r = Random.Range(0,8);
+				allCubes[0,r].renderer.material.color = nextCubeColor;
+				Destroy(nextCube);
+			}
+		}
+		else if (Input.GetKeyDown(KeyCode.Alpha2)) {
+			if (IsRowFull(1)== true){
+				//end the game
 			}
 			else {
 				int r = Random.Range(0,8);
@@ -60,7 +67,7 @@ public class GameControllerScript : MonoBehaviour {
 				Destroy(nextCube);
 			}
 		}
-		else if (Input.GetKeyDown(KeyCode.Keypad2)) {
+		else if (Input.GetKeyDown(KeyCode.Alpha3)) {
 			if (IsRowFull(2)== true){
 				//end the game
 			}
@@ -70,9 +77,9 @@ public class GameControllerScript : MonoBehaviour {
 				Destroy(nextCube);
 			}
 		}
-		else if (Input.GetKeyDown(KeyCode.Keypad3)) {
-			if (IsRowFull(3)== true){
-				//end the game
+		else if (Input.GetKeyDown(KeyCode.Alpha4)) {
+			if (IsRowFull (3) == true){
+				//end the game	
 			}
 			else {
 				int r = Random.Range(0,8);
@@ -80,23 +87,13 @@ public class GameControllerScript : MonoBehaviour {
 				Destroy(nextCube);
 			}
 		}
-		else if (Input.GetKeyDown(KeyCode.Keypad4)) {
-			if (IsRowFull (4) == true){
+		else if (Input.GetKeyDown(KeyCode.Alpha5)) {
+			if (IsRowFull(4) == true){
 				//end the game	
 			}
 			else {
 				int r = Random.Range(0,8);
 				allCubes[4,r].renderer.material.color = nextCubeColor;
-				Destroy(nextCube);
-			}
-		}
-		else if (Input.GetKeyDown(KeyCode.Keypad5)) {
-			if (IsRowFull(5) == true){
-				//end the game	
-			}
-			else {
-				int r = Random.Range(0,8);
-				allCubes[5,r].renderer.material.color = nextCubeColor;
 				Destroy(nextCube);
 			}
 		}
