@@ -4,12 +4,14 @@ using System.Collections;
 public class GameControllerScript : MonoBehaviour {
 	
 	// Living cube refers to a non-grey cube, dead cube is a grey cube. 
-	public float timeToAct = 2;
+	public float timeToAct = 2f;
 	public GameObject deadCube;
 	public GameObject livingCube;
 	public int gridHeight = 5;
 	public int gridWidth = 8;
-	private Color nextCubeColor;
+	// next Cube Color refers to an integer between 1-5 corrisponding to a viable color for the cubes
+	// a value of 0 means that the cube will be white
+	private int nextCubeColor;
 	private float timeBeforeAction;
 	private GameObject[,] allCubes;
 	private GameObject nextCube;
@@ -23,6 +25,8 @@ public class GameControllerScript : MonoBehaviour {
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
 				allCubes[x, y] = (GameObject) Instantiate(livingCube, new Vector3(x*2-14, y*2-8, 10), Quaternion.identity);
+				allCubes[x, y].GetComponent<ColoredCubeScript>().xPos = x;
+				allCubes[x, y].GetComponent<ColoredCubeScript>().yPos = y;
 			}
 		}
 	}
@@ -40,123 +44,95 @@ public class GameControllerScript : MonoBehaviour {
 	// this will give a random colored cube
 	void RandomCubeSpawn (){
 		nextCube = (GameObject) Instantiate(livingCube, new Vector3 (nextCubeX, nextCubeY, nextCubeZ), Quaternion.identity);
-		nextCubeColor= ChooseCubeColor(nextCube);
+		ChooseCubeColor(nextCube);
 	}
 	
 	public void ProcessClickedCube(GameObject clickedCube, int x, int y){
-		//when cube becomes active, move it forward
-		// if the cube is colored and active, make it inactive
-		if (clickedCube.GetComponent<ColoredCubeScript>().cubeColorReference != 0){
+		// if the cube is colored and inactive, make it activ
+		if (clickedCube.GetComponent<ColoredCubeScript>().cubeColorReference != 0 && clickedCube.GetComponent<ColoredCubeScript>().isActive == false){
+			for (int a = 0; a < gridWidth; a++) {
+				for (int b = 0; b < gridHeight; b++) {
+					allCubes[a, b].GetComponent<ColoredCubeScript>().isActive = false;
+				}
+			}
 			clickedCube.GetComponent<ColoredCubeScript>().isActive = true;
 		}
+		// if the cube is colored and active, make it inactive
 		else if (clickedCube.GetComponent<ColoredCubeScript>().isActive == true){
-			clickedCube.GetComponent<ColoredCubeScript>().isActive = false;			
+			clickedCube.GetComponent<ColoredCubeScript>().isActive = false;
 		}
-		// if the cube is colored and inactive, make it active
 		// if the cube is white and ajacent to an active cube, move the active cube to that position. 
 	}
 	
 	void OnKeyDown (){
 		if (Input.GetKeyDown(KeyCode.Alpha1)) {
-			if (IsRowFull(0)){
-				// end the game
-			}
-			else {
-				int r = Random.Range(0,8);
-				allCubes[0,r].renderer.material.color = nextCubeColor;
-				Destroy(nextCube);
-			}
+			IsRowFull(0);
+			PutCubeInRow(0);
+			Destroy(nextCube);
+			RandomCubeSpawn();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha2)) {
-			if (IsRowFull(1)){
-				//end the game
-			}
-			else {
-				int r = Random.Range(0,8);
-				allCubes[1,r].renderer.material.color = nextCubeColor;
-				Destroy(nextCube);
-			}
+			IsRowFull(1);
+			PutCubeInRow(1);
+			Destroy(nextCube);
+			RandomCubeSpawn();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha3)) {
-			if (IsRowFull(2)){
-				//end the game
-			}
-			else {
-				int r = Random.Range(0,8);
-				allCubes[2,r].renderer.material.color = nextCubeColor;
-				Destroy(nextCube);
-			}
+			IsRowFull(2);
+			PutCubeInRow(2);
+			Destroy(nextCube);
+			RandomCubeSpawn();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha4)) {
-			if (IsRowFull (3)){
-				//end the game	
-			}
-			else {
-				int r = Random.Range(0,8);
-				allCubes[3,r].renderer.material.color = nextCubeColor;
-				Destroy(nextCube);
-			}
+			IsRowFull(0);
+			PutCubeInRow(3);
+			Destroy(nextCube);
+			RandomCubeSpawn();
 		}
 		else if (Input.GetKeyDown(KeyCode.Alpha5)) {
-			if (IsRowFull(4)){
-				//end the game	
-			}
-			else {
-				int r = Random.Range(0,8);
-				allCubes[4,r].renderer.material.color = nextCubeColor;
-				Destroy(nextCube);
-			}
+			IsRowFull(0);	
+			PutCubeInRow(4);
+			Destroy(nextCube);
+			RandomCubeSpawn();
 		}
 	}
 	
-	Color ChooseCubeColor(GameObject chosenCube) {
+	void ChooseCubeColor(GameObject chosenCube) {
 		int r = Random.Range(1, 5);
-		Color cbColor = Color.white;
 		chosenCube.GetComponent<ColoredCubeScript>().cubeColorReference = r;
-		chosenCube.GetComponent<ColoredCubeScript>().cubeColor = cbColor;
-		
-		switch (r) {
-			case 1:
-				cbColor = Color.black;
-				chosenCube.renderer.material.color = Color.black;
-				break;
-			case 2:
-				cbColor = Color.blue;
-				chosenCube.renderer.material.color = Color.blue;
-				break;
-			case 3:
-				cbColor = Color.red;
-				chosenCube.renderer.material.color = Color.red;
-				break;
-			case 4:
-				cbColor = Color.yellow;
-				chosenCube.renderer.material.color = Color.yellow;
-				break;
-			case 5:
-				cbColor = Color.green;
-				chosenCube.renderer.material.color = Color.green;
-				break;
-			default:
-			cbColor = Color.magenta;
-			chosenCube.renderer.material.color = Color.magenta;
-			break;
-		}
-		return cbColor;
+		nextCubeColor = r;
 	}
 	
-	bool IsRowFull(int rowNumb){
+	void IsRowFull(int rowNumb){
 		int y = 0;
 		bool rowFull = true;
-		while (y < gridHeight || rowFull == true) {
-			if (allCubes[rowNumb, y].renderer.material.color == Color.white){
-				
+		while (y < gridWidth) {
+			if (allCubes[rowNumb, y].GetComponent<ColoredCubeScript>().cubeColorReference == 0){
 				rowFull = false;
+				break;
 			}
-			else {
+			else if (y < gridWidth){
 				y++;
-				rowFull = true;	
+			}
+			else{
+				print ("end game");
+				break;
 			}
 		}
-		return rowFull;
+		print (rowFull);
+	}
+	
+	void PutCubeInRow(int y){
+		int r = Random.Range (0, 8);
+		while(r < 10) {
+			if (allCubes[r, y].GetComponent<ColoredCubeScript>().cubeColorReference == 0) {
+				allCubes[r, y].GetComponent<ColoredCubeScript>().cubeColorReference = nextCubeColor;
+				r = 12;
+				}
+			else {
+				r = r;
+				r = Random.Range (0, 8);
+			}
+		}
 	}
 }
